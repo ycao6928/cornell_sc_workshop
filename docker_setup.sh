@@ -2,6 +2,7 @@
 
 ## docker run -e PASSWORD=pushu -e ROOT=TRUE -p 8787:8787 532cb5cec05a
 sudo apt-get update
+sudo apt-get -y install libjpeg-turbo-devel
 ## sudo apt-get -y install r-base-dev
 
 ## Make a tmp folder and git clone
