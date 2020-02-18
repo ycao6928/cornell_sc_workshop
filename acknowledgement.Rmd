@@ -1,0 +1,24 @@
+---
+title: "Acknowledgement"
+author: "Sydney Precision Bioinformatics Group"
+date: "27 Feb 2020"
+output: html_document
+---
+
++ This workshop is funded by Single Cell Plus grant. 
+
++ The cloud component of this workshop was supported by a Google Cloud Education Grant. 
+
++ The workshop is developed/adviced from the following members of the Sydney Precision Bioinformatics Group (in alphabetical order)
+  
+    * [Ms. Yue Cao](https://sydney.edu.au/science/about/our-people/research-students/yue-cao-644.html)
+    * [Dr. Shila Ghazanfar](https://www.cruk.cam.ac.uk/author/shila-ghazanfar)
+    * [Ms. Hani Kim](http://www.maths.usyd.edu.au/ut/people?who=JH_Kim&sms=m&personsearch%3DGo+to+person%27s+page)
+    * [Mr. Taiyun Kim]()
+    * [Ms. Yingxin Lin](https://yingxinlin.github.io)
+    * [Dr. Kitty Lo](https://sydney.edu.au/science/people/kitty.lo.php)
+    * [Mr. Kevin Wang](https://sydney.edu.au/science/people/kevin.wang.php)
+    * [Prof. Jean Yang](https://sydney.edu.au/science/people/jean.yang.php)
+    * [Dr. Pengyi Yang](https://sydney.edu.au/science/people/pengyi.yang.php)
+
+We also would like to thank [Mr. Andy Tran](https://sydney.edu.au/science/about/our-people/research-students/andy-tran-312.html) for proof-reading the materials. 
