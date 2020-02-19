@@ -13,7 +13,7 @@
 
 <meta name="date" content="2020-02-27" />
 
-<title>BioInfoSummer workshop: Single Cell RNA-seq Analysis</title>
+<title>Single Cell RNA-seq Analysis</title>
 
 <script src="site_libs/header-attrs-2.1/header-attrs.js"></script>
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
@@ -271,7 +271,7 @@ $(document).ready(function () {
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="index.html">SingleCellPlus - BioInfoSummer 2019</a>
+      <a class="navbar-brand" href="index.html">SingleCellPlus - Cornell 2020</a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
@@ -302,7 +302,7 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">BioInfoSummer workshop: Single Cell RNA-seq Analysis</h1>
+<h1 class="title toc-ignore">Single Cell RNA-seq Analysis</h1>
 <h4 class="author">Sydney Precision Bioinformatics Group</h4>
 <h4 class="date">27 Feb 2020</h4>
 
@@ -334,7 +334,7 @@ $(document).ready(function () {
 <h2>Running workshop on Google Cloud</h2>
 <p>Your instructor will provide you with the links to a Google Cloud server, username and the password. Once you log in, you will have access to RStudio via a webpage.</p>
 <p>Type the following code into your console and you are good to go!</p>
-<pre><code>source(&quot;/home/user_setup.R&quot;)</code></pre>
+<pre><code>system(paste0(&quot;cp -r /home/gittmp/* &quot;, getwd()))</code></pre>
 </div>
 <div id="local" class="section level2">
 <h2>Running workshop locally</h2>
@@ -346,10 +346,10 @@ $(document).ready(function () {
 <li>Latest <code>RStudio</code> from <a href="https://www.rstudio.com/products/rstudio/download/" class="uri">https://www.rstudio.com/products/rstudio/download/</a></li>
 </ul>
 <ol style="list-style-type: decimal">
-<li><p>In your RStudio console pane, please install all the necessary packages by running <a href="https://raw.githubusercontent.com/SydneyBioX/BIS2019_SC/master/install.R">this script</a>. This will take a while.</p></li>
-<li><p>Download all the the workshop materials from <a href="https://github.com/SydneyBioX/BIS2019_SC/archive/master.zip">this zip file</a> and unzip it on your Desktop. You should have a folder with the name <code>/desktop/BIS2019_SC-master</code> created.</p></li>
-<li><p>Download the data from <a href="https://storage.googleapis.com/scp_data/data.zip">this zip file</a> and unzip this file under <code>/desktop/BIS2019_SC-master</code>, so that you should have a folder created as <code>/desktop/BIS2019_SC-master/data</code>.</p></li>
-<li><p>Open up <code>/desktop/SC_CPC_workshop-master/BIS2019_SC.Rproj</code> and you should be able to run every <code>.Rmd</code> file in the workshop now.</p></li>
+<li><p>In your RStudio console pane, please install all the necessary packages by running <a href="https://raw.githubusercontent.com/SydneyBioX/cornell_sc_workshop/master/install.R">this script</a>. This will take a while.</p></li>
+<li><p>Download all the the workshop materials from <a href="https://github.com/SydneyBioX/cornell_sc_workshop/archive/master.zip">this zip file</a> and unzip it on your Desktop. You should have a folder with the name <code>/desktop/cornell_sc_workshop-master</code> created.</p></li>
+<li><p>Download the data from <a href="https://storage.googleapis.com/scp_data/data.zip">this zip file</a> and unzip this file under <code>/desktop/cornell_sc_workshop-master</code>, so that you should have a folder created as <code>/desktop/cornell_sc_workshop-master/data</code>.</p></li>
+<li><p>Open up <code>/desktop/cornell_sc_workshop-master/cornell_sc_workshop.Rproj</code> and you should be able to run every <code>.Rmd</code> file in the workshop now.</p></li>
 </ol>
 </div>
 </div>

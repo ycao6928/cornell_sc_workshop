@@ -1,1 +1,1 @@
-system(paste0("cp -r /home/CPC/* ", getwd()))
+system(paste0("cp -r /home/gittmp/* ", getwd()))

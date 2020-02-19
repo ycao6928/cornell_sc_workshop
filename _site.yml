@@ -1,7 +1,7 @@
 # This file controls the layout of the website. 
 name: "SingleCellPlus"
 navbar:
-  title: "SingleCellPlus - BioInfoSummer 2019"
+  title: "SingleCellPlus - Cornell 2020"
   left:
     - text: "Home"
       href: index.html
