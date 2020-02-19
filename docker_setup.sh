@@ -7,7 +7,7 @@ sudo apt-get install libjpeg-dev
 
 ## Make a tmp folder and git clone
 mkdir /home/gittmp/
-git clone https://github.com/SydneyBioX/BIS2019_SC /home/gittmp/
+git clone https://github.com/SydneyBioX/cornell_sc_workshop /home/gittmp/
 ## wget all data files from Google Cloud Storage into /home/CPC/
 wget https://storage.googleapis.com/scp_data/data.zip -P /home/gittmp/
 cd /home/gittmp/ && unzip ./data.zip
@@ -25,7 +25,7 @@ for((userIndex = 1; userIndex <= 50; userIndex++))
 {
   userID=user${userIndex}
   sudo useradd -g trainees -d /home/$userID -m -s /bin/bash $userID
-  sudo cp -r /home/gittmp/* /home/$userID/
+  # sudo cp -r /home/gittmp/* /home/$userID/
   echo $userID:2020 | sudo chpasswd
 }
 done
