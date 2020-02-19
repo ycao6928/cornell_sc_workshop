@@ -5,7 +5,7 @@ gce_global_project(project)
 
 
 ## see gce_list_machinetype() for options of predefined_type
-(tag = "gcr.io/scpworkshop/cornell_workshop:hack")
+(tag = "gcr.io/scpworkshop/cornell_sc_workshop:alpha")
 
 
 gce_global_zone("us-central1-a")

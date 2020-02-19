@@ -20,7 +20,7 @@ ls /home/gittmp/
 
 sudo groupadd trainees
 
-for((userIndex = 1; userIndex <= 50; userIndex++))
+for((userIndex = 1; userIndex <= 25; userIndex++))
   do
 {
   userID=user${userIndex}
