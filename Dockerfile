@@ -1,4 +1,4 @@
-FROM bioconductor/bioconductor_docker
+FROM bioconductor/bioconductor_docker:RELEASE_3_10
 
 MAINTAINER kevin.wang@sydney.edu.au
 
