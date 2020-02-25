@@ -98,6 +98,8 @@ Here, we first used `rowSums(liver)` to calculate the total counts for each gene
 
 # Waterfall plot
 
+In droplet-based technologies, each droplet is supposed to capture a single cell and such a droplet is then assigned with a barcode. Hence, in this raw data we obtained, each column of the data correspond to a barcoded droplet. Due to limitation of the technology, sometimes the droplet doesn't always contain a cell, or it might contain multiples cells (which we will not explore here). Such columns in the data should be filtered out from our analysis. 
+
 The waterfall plot shows the log-count against the log-rank of each barcode. The barcodes are ranked based on the number of counts each barcode has. We will compute these statistics using the `barcodeRanks` function from the `DropletUtils` package. And then we will extract the statistics and perform some plotting using the `ggplot2` package.
 
 The waterfall plots show two points of interest:
@@ -141,7 +143,7 @@ Based on the waterfall plot, should we filter out any cells?
 
 # Library size
 
-Next, we can evaluate the total library size, that is the total read counts per cell. The library size may be used as an indicator of sequencing depth and it is a typical diagnostic for RNA-Seq data (for both the bulk and singl-cell type).
+Next, we can evaluate the total library size, that is, the total read counts per cell. The library size may be used as an indicator of sequencing depth and it is a typical diagnostic for RNA-Seq data (for both the bulk and singl-cell type).
 
 A small library size for a cell may suggest abnormalies and lack of captured signals. In such a case, the cells with unusually small library size should be removed.
 
@@ -315,7 +317,7 @@ liver_percent_plotdf %>%
 
 
 
-The plot above shows that there are three spike-in genes within the top 50 genes. The presence of multiple spike-ins at the top of the list may suggest that the concentration of spike-ins added to the experiment may need to be optimized for subsequent experiments. Overall, the relatively flat distributions indicate good coverage of the transcriptome.
+The plot above shows that there are three spike-in genes within the top 50 genes. The presence of multiple spike-ins at the top of the list may suggest that the concentration of spike-ins added to the experiment may need to be optimized for subsequent experiments. Overall, the relatively "flat" distributions indicate good coverage of the transcriptome (i.e. there isn't one gene consuming all of the read counts).
 
 
 

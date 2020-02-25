@@ -27,11 +27,11 @@ vm1 <- gce_vm(template = "rstudio",
 #              password = Sys.getenv("DOCKER_PWD"))
 
 
-# vm = gce_ssh_setup(vm,
-#                    username = "rstudio",
-#                    key.pub = "~/.ssh/id_rsa.pub",
-#                    key.private = "~/.ssh/id_rsa")
-# 
-# gce_push_registry(vm, 
-#                   save_name = "my_rstudio",
-#                   container_name = "rstudio")
+vm1 = gce_ssh_setup(vm1,
+                   username = "rstudio",
+                   key.pub = "~/.ssh/id_rsa.pub",
+                   key.private = "~/.ssh/id_rsa")
+
+gce_push_registry(vm1,
+                  save_name = "customised",
+                  container_name = "rstudio")

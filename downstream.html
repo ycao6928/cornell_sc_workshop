@@ -463,16 +463,16 @@ mat = SummarizedExperiment::assay(subset_data, &quot;scMerge&quot;)</code></pre>
 <li>The <strong>similarity metric</strong> that determines if two cells are similar to each other, and</li>
 <li>The <strong>algorithm</strong> itself that uses the similarity metric to perform the grouping operations.</li>
 </ul>
-<p>In our recent study, we found Pearson correlation to be the optimal similarity metric for comparing single cell RNA-seq data ( <a href="https://academic.oup.com/bib/advance-article-abstract/doi/10.1093/bib/bby076/5077112?redirectedFrom=fulltext"><em>Kim et al., 2018</em></a> ). Therefore in this workshop, we will utilise <code>scClust</code> in our <code>scdney</code> package, which implemented 2017 Nature methods clustering algorithm <code>SIMLR</code> with pearson correlation.</p>
+<p>In our recent study, we found Pearson correlation to be the optimal similarity metric for comparing single cell RNA-seq data ( <a href="https://academic.oup.com/bib/advance-article-abstract/doi/10.1093/bib/bby076/5077112?redirectedFrom=fulltext"><em>Kim et al., 2018</em></a> ). Therefore in this workshop, we will utilise <code>scClust</code> in our <code>scdney</code> package, which implemented 2017 Nature methods clustering algorithm <code>SIMLR</code> with Pearson correlation.</p>
 <div id="how-many-distinct-groups-of-populations-are-there-in-my-dataset" class="section level2" number="2.1">
 <h2 number="2.1"><span class="header-section-number">2.1</span> How many distinct groups of populations are there in my dataset?</h2>
 <p>Typical clustering methods (except for some methods like hierarchical clustering) require users to specify the number of distinct groups (<code>k</code>) to cluster from your data. In the context of this data, we can think of <code>k</code> as the the number of cell types.</p>
 <p>In an unsupervised setting, we do not know the exact number and therefore, in a practical setting, we should run clustering for various numbers for <code>k</code> and evaluate their clustering performance.</p>
-<p><strong>However</strong>, due to the time limit of this workshop, we will only run the <code>scClust</code> clustering for <code>k = 6</code> as a demonstration and load a saved result with more values of <code>k</code> computed.</p>
-<pre class="r"><code>## For demonstration purpose, we will run k = 6 (which is actually the number of cell types in our dataset)
-simlr_result_k6 = scClust(mat, 6, similarity = &quot;pearson&quot;, method = &quot;simlr&quot;, seed = 1, cores.ratio = 0, geneFilter = 0)
+<p><strong>However</strong>, due to the time limit of this workshop, we will only run the <code>scClust</code> clustering for <code>k = 6</code> as a demonstration and load a saved result with more values of <code>k</code> computed. (You don’t necessarily need to run the code for <code>scClust</code>, but you will need to load the pre-computed results.)</p>
+<pre class="r"><code>## For demonstration purpose, this is the code for running `scClust` with k = 6 (which is actually the number of cell types in our dataset)
 
-load(&quot;data/simlr.results.RData&quot;)</code></pre>
+simlr_result_k6 = scClust(mat, 6, similarity = &quot;pearson&quot;, method = &quot;simlr&quot;, seed = 1, cores.ratio = 0, geneFilter = 0)</code></pre>
+<pre class="r"><code>load(&quot;data/simlr.results.RData&quot;)</code></pre>
 <p>[Extension] If you are interested, this is how you can compute <code>data/simlr.results.RData</code> by yourself.</p>
 <pre class="r"><code>## We will NOT run for various `k` to save time. Instead, we will load pre-computed results for `k` between 3 to 8
 
@@ -484,7 +484,7 @@ simlr_results = sapply(as.character(all_k), function(k) {
 </div>
 <div id="how-do-we-select-optimal-k" class="section level2" number="2.2">
 <h2 number="2.2"><span class="header-section-number">2.2</span> How do we select optimal <code>k</code>?</h2>
-<p>If our <code>k</code> is optimal, we should expect that each cluster is tightly packed together and the distances within the clusters, within-cluster sum of squares (WSS) are expected to be small. Thus, we will select the <code>k</code> with a small total WSS (compact clusters). This is called the “elbow” method.</p>
+<p>If our <code>k</code> is optimal, we should expect that each cluster is tightly packed together and the distances within the clusters, within-cluster sum of squares (WSS), are expected to be small. Thus, we will select the <code>k</code> with a small total WSS (compact clusters). This is called the “elbow” method.</p>
 <pre class="r"><code># Find total WSS from all cluster outputs
 all_wss = sapply(simlr_results, function(result) {
   sum(result$y$withinss)
@@ -503,8 +503,8 @@ ggplot(plot_data,
               method.args = list(degree = 1), se = FALSE) +
   labs(title = &quot;Compare Total WSS for each k&quot;,
        y = &quot;Total WSS&quot;)</code></pre>
-<p><img src="downstream_files/figure-html/unnamed-chunk-6-1.png" width="768" /></p>
-<p>As shown in this plot, the graph begins to plateau from <code>k</code> = 5. We can estimate that k is around 5 or 6. We can further investigate using silhouette scores or other metrics but using our t-SNE plot (this may require a bit of practical experience) we will estimate <code>k</code> = 6.</p>
+<p><img src="downstream_files/figure-html/unnamed-chunk-7-1.png" width="768" /></p>
+<p>As shown in this plot, the graph begins to plateau from <code>k</code> = 5. We can estimate that <code>k</code> is around 5 or 6. We can further investigate using silhouette scores or other metrics but using our t-SNE plot (this may require a bit of practical experience) we will estimate <code>k</code> = 6.</p>
 <h4>
 <span class="glyphicon glyphicon-education" aria-hidden="true"></span> Quick quiz
 </h4>
@@ -559,7 +559,7 @@ ggplot(plot_data, aes(x = tsne1, y = tsne2, colour = cluster)) +
   labs(title = &quot;t-SNE plot&quot;) +
   facet_grid(~label) +
   theme(legend.position = &quot;none&quot;)</code></pre>
-<p><img src="downstream_files/figure-html/unnamed-chunk-8-1.png" width="960" /></p>
+<p><img src="downstream_files/figure-html/unnamed-chunk-9-1.png" width="960" /></p>
 <pre class="r"><code>plot_data2 = data.frame(
   Truth = lab,
   computed_cluster = as.factor(c(pear_cluster, eucl_cluster)),
@@ -580,7 +580,7 @@ plot_data2 %&gt;%
   facet_wrap(~label) +
   scale_fill_distiller(palette = &quot;Blues&quot;, direction = 1) +
   labs(title = &quot;&quot;)</code></pre>
-<p><img src="downstream_files/figure-html/unnamed-chunk-9-1.png" width="960" /></p>
+<p><img src="downstream_files/figure-html/unnamed-chunk-10-1.png" width="960" /></p>
 <h4>
 <span class="glyphicon glyphicon-education" aria-hidden="true"></span> Quick quiz
 </h4>
@@ -611,7 +611,7 @@ ggplot(plot_data, aes(x = dist, y = value, fill = dist)) +
        y = &quot;Evalution score&quot;,
        title = &quot;Effect of similarity metrics in scRNA-seq data&quot;) +
   theme(legend.position = &quot;none&quot;)</code></pre>
-<p><img src="downstream_files/figure-html/unnamed-chunk-10-1.png" width="960" /></p>
+<p><img src="downstream_files/figure-html/unnamed-chunk-11-1.png" width="960" /></p>
 </div>
 </div>
 <div id="q2" class="section level1" number="3">
@@ -624,9 +624,11 @@ ggplot(plot_data, aes(x = dist, y = value, fill = dist)) +
 <p>Here we provide a function that allows one to find differentially expressed genes between a cluster and the remaining clusters. The input of this function is the expression matrix and the cluster ID. The output is a list of marker genes and their associated p-values.</p>
 <p>Here we provide an example of this using the <code>findmarker</code> function from the <code>scdney</code> package.</p>
 <p>To find out the marker genes in cluster 4, we type in <code>4</code> in the <code>findmarker</code> function. We then look at the top 10 genes ranked by p-value. We can then use <code>ggplot</code> to visualise the distribution of one of the genes across the dataset.</p>
-<pre class="r"><code>marker_cluster4 = findMarker(mat = mat,
-                             cluster = simlr_result_k6$y$cluster,
-                             cluster_id = 4)</code></pre>
+<pre class="r"><code>marker_cluster4 = scdney::findMarker(
+  mat = mat,
+  cluster = simlr_result_k6$y$cluster,
+  cluster_id = 4)</code></pre>
+<pre class="r"><code>marker_cluster4 = readRDS(paste0(datapath, &quot;marker_cluster4.rds&quot;))</code></pre>
 <pre class="r"><code>marker_cluster4[1:10, ]</code></pre>
 <pre><code>##          gene       P_value
 ## 12739    Gys2 6.068095e-153
@@ -651,7 +653,7 @@ ggplot(data = tsne_plotdf, aes(x = tsne1, y = tsne2, colour = Gys2) ) +
   geom_point(alpha = 0.5) +
   scale_color_viridis() +
   labs(col = &quot;Gys2 expression&quot;, x = &quot;tsne1&quot;, y = &quot;tsne2&quot;)</code></pre>
-<p><img src="downstream_files/figure-html/unnamed-chunk-14-1.png" width="768" /></p>
+<p><img src="downstream_files/figure-html/unnamed-chunk-15-1.png" width="768" /></p>
 <h4>
 <span class="glyphicon glyphicon-education" aria-hidden="true"></span> Quick quiz
 </h4>
@@ -668,7 +670,7 @@ ggplot(data = tsne_plotdf,
   geom_point(alpha = 0.5) +
   scale_color_viridis() +
   labs(col=&quot;Erich5 expression&quot;)</code></pre>
-<p><img src="downstream_files/figure-html/unnamed-chunk-16-1.png" width="768" /></p>
+<p><img src="downstream_files/figure-html/unnamed-chunk-17-1.png" width="768" /></p>
 </div>
 <div id="q3" class="section level1" number="5">
 <h1 number="5"><span class="header-section-number">5</span> For a gene of interest, how can I visualise the gene expression distribution?</h1>
@@ -676,7 +678,8 @@ ggplot(data = tsne_plotdf,
 <p>The figure on the left highlights cluster 4 and the figure on the right highlights the expression of Hnf4a.</p>
 <p>This suggests that cluster 4 could belong to hepatoblast cell.</p>
 <pre class="r"><code>tsne_plotdf = tsne_plotdf %&gt;%
-  dplyr::mutate(Hnf4a = mat[&quot;Hnf4a&quot;,])
+  dplyr::mutate(Hnf4a = mat[&quot;Hnf4a&quot;,],
+                truth = lab)
 
 
 fig1 = ggplot(data = tsne_plotdf,
@@ -690,15 +693,23 @@ fig1 = ggplot(data = tsne_plotdf,
 
 
 fig2 = ggplot(data = tsne_plotdf,
-              mapping = aes(x = tsne1, y = tsne2, colour = Hnf4a) ) +
+              mapping = aes(x = tsne1, y = tsne2, colour = Hnf4a)) +
   geom_point(alpha = 0.5) +
-  scale_color_viridis() +
+  scale_colour_viridis() +
   labs(x = &quot;&quot;,
        y = &quot;&quot;,
        title = &quot;Hnf4a expression pattern&quot;)
 
-ggarrange(fig1,fig2, ncol= 2, nrow = 1)</code></pre>
-<p><img src="downstream_files/figure-html/unnamed-chunk-17-1.png" width="1152" /></p>
+fig3 = ggplot(data = tsne_plotdf,
+              mapping = aes(x = tsne1, y = tsne2, colour = truth)) +
+  geom_point(alpha = 0.5) +
+  labs(x = &quot;&quot;,
+       y = &quot;&quot;,
+       title = &quot;&#39;True&#39; labels provided by authors&quot;)
+
+
+ggarrange(fig1, fig2, fig3, ncol = 3, nrow = 1)</code></pre>
+<p><img src="downstream_files/figure-html/unnamed-chunk-18-1.png" width="1440" /></p>
 <h4>
 <span class="glyphicon glyphicon-education" aria-hidden="true"></span> Quick quiz
 </h4>
@@ -717,7 +728,7 @@ fig1 = ggplot(data = tsne_plotdf, mapping = aes(x = tsne1, y = tsne2) ) +
 
 
 fig2 = ggplot(data = tsne_plotdf,
-               mapping = aes(x = tsne1, y = tsne2, colour = Epcam) ) +
+              mapping = aes(x = tsne1, y = tsne2, colour = Epcam) ) +
   geom_point(alpha=0.5) +
   scale_color_viridis() +
   labs(x = &quot;&quot;,
@@ -725,7 +736,7 @@ fig2 = ggplot(data = tsne_plotdf,
        title = &quot;Epcam expression pattern&quot;)
 
 ggarrange(fig1,fig2, ncol= 2, nrow = 1)</code></pre>
-<p><img src="downstream_files/figure-html/unnamed-chunk-18-1.png" width="1152" /></p>
+<p><img src="downstream_files/figure-html/unnamed-chunk-19-1.png" width="1152" /></p>
 <p>As you may have already noticed from above steps, unsupervised clustering methods alone are not perfect in capturing cell type information. Using this step iteratively, we need to refine our cell type information.</p>
 </div>
 <div id="q4" class="section level1" number="6">
@@ -746,8 +757,40 @@ ggplot(plot_data,
        title = &quot;Composition of cell types&quot;) +
   coord_flip() +
   theme(legend.position = &quot;none&quot;)</code></pre>
-<p><img src="downstream_files/figure-html/unnamed-chunk-19-1.png" width="576" /></p>
+<p><img src="downstream_files/figure-html/unnamed-chunk-20-1.png" width="576" /></p>
 <p>We observe that hepatoblast/hepatocyte is the largest population.</p>
+</div>
+<div id="proportion-estimates-through-scdc" class="section level2" number="6.2">
+<h2 number="6.2"><span class="header-section-number">6.2</span> Proportion estimates through <code>scDC</code></h2>
+<p><code>scDC</code> is a package developed by the Sydney Precision Bioinformatics Group. It simulates the uncertainty associated with cell-type proportion estimates through bootstrap and confidence interval calculation and provides visualisation of the uncertainty.</p>
+<p>The usage of <code>scDC</code> is very simple. The main function <code>scDC_clustering</code> requires the following inputs:</p>
+<ul>
+<li><code>exprsMat</code>: Single cell xpression matrix</li>
+<li><code>cellTypes</code>: Cell type label for each cell</li>
+<li><code>subject</code>: Patient, treatment information</li>
+<li><code>calCI_method</code>: Confidence interval method. Options include BCa, percentile, and multinom.</li>
+</ul>
+<pre class="r"><code>result &lt;- scDC_clustering(exprsMat =  mat, 
+                          cellTypes = lab , 
+                          subject = rep(&quot;liver&quot;, length(lab) ) , 
+                          calCI_method= c( &quot;multinom&quot;, &quot;percentile&quot;))</code></pre>
+<p>To save time, we have ran the above function and provided the result below.<br />
+<code>scDC</code> contains two visualisation methods, barplot and density plot. Based on these figures, we can see that instead of a fixed proportion, we obtain a distribution of proportions associated with each cell-type proportion.</p>
+<pre class="r"><code>datapath = &quot;./data/&quot;
+
+result &lt;- readRDS(paste0(datapath,&quot;scDC_result.RDS&quot;))
+barplotCI(result, &quot;liver&quot;)</code></pre>
+<p><img src="downstream_files/figure-html/unnamed-chunk-22-1.png" width="768" /></p>
+<pre class="r"><code>densityCI(result, &quot;liver&quot;)</code></pre>
+<p><img src="downstream_files/figure-html/unnamed-chunk-22-2.png" width="768" /></p>
+<h4>
+<span class="glyphicon glyphicon-education" aria-hidden="true"></span> Quick quiz
+</h4>
+<ol style="list-style-type: decimal">
+<li>What is the range of proportion distribution for the cell-type endothelial cell?<br />
+</li>
+<li>Any rare cell type? What is the most common cell type?</li>
+</ol>
 </div>
 </div>
 <div id="extension-monocle" class="section level1" number="7">
@@ -771,7 +814,7 @@ monocle_CellDataSet = scran::convertTo(
   assay.type = &quot;scMerge&quot;
   # col.fields = c(&quot;cellTypes&quot;, &quot;stage&quot;, &quot;batch&quot;),
   # row.fields = c(&quot;gene_short_name&quot;)
-  ) %&gt;%
+) %&gt;%
   estimateSizeFactors()
 
 ## Performing differential gene test using &quot;stage&quot;.
@@ -797,10 +840,10 @@ monocle_CellDataSet = reduceDimension(monocle_CellDataSet,
                                       method = &#39;DDRTree&#39;)
 monocle_CellDataSet = orderCells(monocle_CellDataSet)
 plot_cell_trajectory(monocle_CellDataSet, color_by = &quot;stage&quot;)</code></pre>
-<p><img src="downstream_files/figure-html/unnamed-chunk-21-1.png" width="768" /></p>
+<p><img src="downstream_files/figure-html/unnamed-chunk-24-1.png" width="768" /></p>
 <pre class="r"><code># monocle::plot_cell_clusters(monocle_CellDataSet)
 plot_genes_in_pseudotime(monocle_CellDataSet[c(&quot;Sarm1&quot;, &quot;Gm38388&quot;),], color_by = &quot;stage&quot;)</code></pre>
-<p><img src="downstream_files/figure-html/unnamed-chunk-21-2.png" width="768" /></p>
+<p><img src="downstream_files/figure-html/unnamed-chunk-24-2.png" width="768" /></p>
 </div>
 <div id="extension-can-we-use-the-data-as-reference-for-future-cell-type-classification" class="section level1" number="8">
 <h1 number="8"><span class="header-section-number">8</span> Extension: Can we use the data as reference for future cell type classification?</h1>
@@ -849,16 +892,16 @@ table(liver_cellTypes_train)</code></pre>
 ## Number of cell types in the training data: 6</code></pre>
 <p>We can visualise the cell type hirearchy tree using <code>plotCellTypeTree()</code>:</p>
 <pre class="r"><code>scClassify::plotCellTypeTree(trainLiver@cellTypeTree)</code></pre>
-<p><img src="downstream_files/figure-html/unnamed-chunk-24-1.png" width="1152" /></p>
+<p><img src="downstream_files/figure-html/unnamed-chunk-27-1.png" width="1152" /></p>
 <p>Next, we perform <code>predict_scClassify()</code> with our trained model <code>trainRes = trainLiver</code> to predict the cell types of our query data matrix <code>liver_exprsMat_test</code>. Here, we used <code>pearson</code> as similarity metrics.</p>
 <pre class="r"><code>pred_res &lt;- scClassify::predict_scClassify(exprsMat_test = liver_exprsMat_test, 
-                               cellTypes_test = liver_cellTypes_test,
-                               trainRes = trainLiver,
-                               algorithm = &quot;WKNN&quot;,
-                               features = c(&quot;limma&quot;),
-                               similarity = c(&quot;pearson&quot;),
-                               prob_threshold = 0.7,
-                               verbose = TRUE)</code></pre>
+                                           cellTypes_test = liver_cellTypes_test,
+                                           trainRes = trainLiver,
+                                           algorithm = &quot;WKNN&quot;,
+                                           features = c(&quot;limma&quot;),
+                                           similarity = c(&quot;pearson&quot;),
+                                           prob_threshold = 0.7,
+                                           verbose = TRUE)</code></pre>
 <pre><code>## Ensemble learning is disabled... 
 ## Using parameters: 
 ## similarity  algorithm   features 
@@ -891,7 +934,7 @@ ggplot(plot_data, aes(x = tsne1, y = tsne2, colour = cluster)) +
   labs(title = &quot;t-SNE plot&quot;) +
   facet_grid(~label) +
   theme(legend.position = &quot;bottom&quot;)</code></pre>
-<p><img src="downstream_files/figure-html/unnamed-chunk-26-1.png" width="1152" /></p>
+<p><img src="downstream_files/figure-html/unnamed-chunk-29-1.png" width="1152" /></p>
 <pre class="r"><code>tab &lt;- table(pred_res$pearson_WKNN_limma$predRes, liver_cellTypes_test)
 knitr::kable(tab)</code></pre>
 <table>
@@ -994,7 +1037,7 @@ knitr::kable(tab)</code></pre>
 <div id="sessioninfo" class="section level1" number="9">
 <h1 number="9"><span class="header-section-number">9</span> SessionInfo</h1>
 <pre class="r"><code>sessionInfo()</code></pre>
-<pre><code>## R version 3.6.1 (2019-07-05)
+<pre><code>## R version 3.6.2 (2019-12-12)
 ## Platform: x86_64-apple-darwin15.6.0 (64-bit)
 ## Running under: macOS Mojave 10.14.6
 ## 
@@ -1029,14 +1072,14 @@ knitr::kable(tab)</code></pre>
 ## 
 ## loaded via a namespace (and not attached):
 ##   [1] tidyselect_1.0.0       lme4_1.1-21            htmlwidgets_1.5.1     
-##   [4] grid_3.6.1             combinat_0.0-8         docopt_0.6.1          
+##   [4] grid_3.6.2             combinat_0.0-8         docopt_0.6.1          
 ##   [7] pROC_1.16.1            munsell_0.5.0          codetools_0.2-16      
 ##  [10] statmod_1.4.34         withr_2.1.2            colorspace_1.4-1      
 ##  [13] fastICA_1.2-2          highr_0.8              knitr_1.28            
 ##  [16] rstudioapi_0.11        DescTools_0.99.32      ggsignif_0.6.0        
 ##  [19] pbmcapply_1.5.0        labeling_0.3           slam_0.1-47           
 ##  [22] GenomeInfoDbData_1.2.2 polyclip_1.10-0        farver_2.0.3          
-##  [25] pheatmap_1.0.12        vctrs_0.2.2            generics_0.0.2        
+##  [25] pheatmap_1.0.12        vctrs_0.2.3            generics_0.0.2        
 ##  [28] ipred_0.9-9            xfun_0.12              randomForest_4.6-14   
 ##  [31] diptest_0.75-7         R6_2.4.1               doParallel_1.0.15     
 ##  [34] graphlayouts_0.5.0     locfit_1.5-9.1         bitops_1.0-6          
@@ -1046,7 +1089,7 @@ knitr::kable(tab)</code></pre>
 ##  [46] ModelMetrics_1.2.2.1   acepack_1.4.1          broom_0.5.4           
 ##  [49] checkmate_2.0.0        yaml_2.2.1             reshape2_1.4.3        
 ##  [52] abind_1.4-5            backports_1.1.5        Hmisc_4.3-1           
-##  [55] caret_6.0-85           tools_3.6.1            lava_1.6.6            
+##  [55] caret_6.0-85           tools_3.6.2            lava_1.6.6            
 ##  [58] clusteval_0.1          ellipsis_0.3.0         RColorBrewer_1.1-2    
 ##  [61] proxy_0.4-23           ggridges_0.5.2         Rcpp_1.0.3            
 ##  [64] base64enc_0.1-3        zlibbioc_1.32.0        purrr_0.3.3           
@@ -1055,19 +1098,19 @@ knitr::kable(tab)</code></pre>
 ##  [73] RANN_2.6.1             mvtnorm_1.0-12         mitml_0.3-7           
 ##  [76] amap_0.8-18            evaluate_0.14          jpeg_0.1-8.1          
 ##  [79] sparsesvd_0.2          gridExtra_2.3          HSMMSingleCell_1.6.0  
-##  [82] compiler_3.6.1         tibble_2.1.3           mice_3.7.0            
+##  [82] compiler_3.6.2         tibble_2.1.3           mice_3.7.0            
 ##  [85] crayon_1.3.4           minqa_1.2.4            htmltools_0.4.0       
 ##  [88] proxyC_0.1.5           segmented_1.1-0        mgcv_1.8-31           
 ##  [91] Formula_1.2-3          snow_0.4-3             tidyr_1.0.2           
 ##  [94] expm_0.999-4           RcppParallel_4.4.4     lubridate_1.7.4       
-##  [97] tweenr_1.0.1           MASS_7.3-51.5          boot_1.3-24           
+##  [97] tweenr_1.0.1           MASS_7.3-51.4          boot_1.3-23           
 ## [100] pan_1.6                gower_0.2.1            igraph_1.2.4.2        
-## [103] pkgconfig_2.0.3        foreign_0.8-75         recipes_0.1.9         
+## [103] pkgconfig_2.0.3        foreign_0.8-72         recipes_0.1.9         
 ## [106] hopach_2.46.0          foreach_1.4.8          XVector_0.26.0        
 ## [109] minpack.lm_1.2-1       prodlim_2019.11.13     stringr_1.4.0         
 ## [112] digest_0.6.24          rmarkdown_2.1          htmlTable_1.13.3      
 ## [115] dendextend_1.13.3      kernlab_0.9-29         jomo_2.6-10           
-## [118] nloptr_1.2.1           lifecycle_0.1.0        nlme_3.1-144          
+## [118] nloptr_1.2.1           lifecycle_0.1.0        nlme_3.1-142          
 ## [121] pillar_1.4.3           lattice_0.20-38        survival_3.1-8        
 ## [124] glue_1.3.1             qlcMatrix_0.9.7        FNN_1.1.3             
 ## [127] png_0.1-7              iterators_1.0.12       ggforce_0.3.1         

@@ -478,7 +478,7 @@ theme_set(theme_classic(16))</code></pre>
 </tbody>
 </table>
 <p>For the purpose of efficient data management, the bioinformatics community uses a <code>SingleCellExperiment</code> object to store single cell data. We have saved the Su and Yang data as two separate RDS files and we will read these data in first.</p>
-<p>Note: In the scMerge publication, we have merged <a href="https://sydneybiox.github.io/scMerge/articles/case_study/Mouse_Liver_Data.html">four mouse liver datasets</a> together. This data is a bit too large for us to work with in this workshop, hence, we will only merge the Su and Yang datasets.</p>
+<p>Note: In the <code>scMerge</code> publication, we have merged <a href="https://sydneybiox.github.io/scMerge/articles/case_study/Mouse_Liver_Data.html">four mouse liver datasets</a> together. This data is a bit too large for us to work with in this workshop, hence, we will only merge the Su and Yang datasets.</p>
 <pre class="r"><code>datapath = &quot;./data/&quot;
 # datapath = &quot;/home/data/&quot;
 
@@ -598,7 +598,7 @@ table(
 <p>We will visualise all three columns using a heatmap plot as shown below.</p>
 <p>We see that the Hepatoblast cells are the only cell type common between the two data sources.</p>
 <p><img src="scMerge_files/figure-html/unnamed-chunk-4-1.png" width="1152" /></p>
-<p>For a well-merged dataset, we should expect that the cells are grouped by the cell types rather than the batch/data sources. One way to check for this is via a TSNE plot. The following code creates a TSNE plot coloured by cell types and another coloured by batches. Pay special attention to the Hepatoblast cells (green in the left panel) since it is the only cell type that exists in both batches. Do you think the raw data is well-merged?</p>
+<p>For a well-merged dataset, we should <strong>expect that the cells are grouped by the cell types rather than the batch/data sources</strong>. One way to check for this is via a TSNE plot. The following code creates a TSNE plot coloured by cell types and another coloured by batches. Pay special attention to the Hepatoblast cells (green in the left panel) since it is the only cell type that exists in both batches. Do you think the raw data is well-merged?</p>
 <pre class="r"><code>set.seed(1234)
 tsne_logcounts = sce_combine %&gt;% 
   scater::runTSNE(exprs_values = &quot;logcounts&quot;)
@@ -628,7 +628,7 @@ ggpubr::ggarrange(tsne_logcounts_cellTypes,
 <li><code>sce_combine</code>: is a <code>SingleCellExperiment</code> object containing a column <code>batch</code> in its colData</li>
 <li><code>ctl</code>: An index of stably expressed genes</li>
 <li><code>cell_type</code>: Cell type information</li>
-<li><code>replicate_prop</code>: What is the proportion of cells to be used for finding pseudo-replicates</li>
+<li><code>replicate_prop</code>: What is the proportion of cells to be used for finding pseudo-replicates (default to 1 for this workshop)</li>
 <li><code>assay_name</code>: The name of the merged data when stored in the output <code>SingleCellExperiment</code></li>
 <li><code>verbose</code>: whether intermediate messages should be printed out</li>
 </ul>
@@ -868,7 +868,7 @@ ggpubr::ggarrange(tsne_scMerge_fast_cellTypes, tsne_scMerge_fast_batch, ncol = 2
 <div id="session-info" class="section level1" number="7">
 <h1 number="7"><span class="header-section-number">7</span> Session Info</h1>
 <pre class="r"><code>sessionInfo()</code></pre>
-<pre><code>## R version 3.6.1 (2019-07-05)
+<pre><code>## R version 3.6.2 (2019-12-12)
 ## Platform: x86_64-apple-darwin15.6.0 (64-bit)
 ## Running under: macOS Mojave 10.14.6
 ## 
@@ -885,7 +885,7 @@ ggpubr::ggarrange(tsne_scMerge_fast_cellTypes, tsne_scMerge_fast_batch, ncol = 2
 ## 
 ## other attached packages:
 ##  [1] tidyr_1.0.2                 scater_1.14.6              
-##  [3] scMerge_1.2.0               forcats_0.4.0              
+##  [3] scMerge_1.3.0               forcats_0.4.0              
 ##  [5] stringr_1.4.0               scales_1.1.0               
 ##  [7] DropletUtils_1.6.1          scClassify_0.2.0           
 ##  [9] monocle_2.14.0              DDRTree_0.1.5              
@@ -915,32 +915,32 @@ ggpubr::ggarrange(tsne_scMerge_fast_cellTypes, tsne_scMerge_fast_batch, ncol = 2
 ##  [22] evaluate_0.14            fansi_0.4.1              caTools_1.18.0          
 ##  [25] dendextend_1.13.3        igraph_1.2.4.2           htmlwidgets_1.5.1       
 ##  [28] sparsesvd_0.2            purrr_0.3.3              ellipsis_0.3.0          
-##  [31] backports_1.1.5          RcppParallel_4.4.4       vctrs_0.2.2             
+##  [31] backports_1.1.5          RcppParallel_4.4.4       vctrs_0.2.3             
 ##  [34] abind_1.4-5              caret_6.0-85             withr_2.1.2             
 ##  [37] sfsmisc_1.1-5            ggforce_0.3.1            bdsmatrix_1.3-4         
 ##  [40] checkmate_2.0.0          segmented_1.1-0          lazyeval_0.2.2          
 ##  [43] crayon_1.3.4             recipes_0.1.9            pkgconfig_2.0.3         
 ##  [46] slam_0.1-47              labeling_0.3             tweenr_1.0.1            
-##  [49] vipor_0.4.5              nlme_3.1-144             hopach_2.46.0           
+##  [49] vipor_0.4.5              nlme_3.1-142             hopach_2.46.0           
 ##  [52] nnet_7.3-12              rlang_0.4.4              diptest_0.75-7          
 ##  [55] lifecycle_0.1.0          mitml_0.3-7              startupmsg_0.9.6        
 ##  [58] doSNOW_1.0.18            rsvd_1.0.3               randomForest_4.6-14     
-##  [61] polyclip_1.10-0          Rhdf5lib_1.8.0           boot_1.3-24             
+##  [61] polyclip_1.10-0          Rhdf5lib_1.8.0           boot_1.3-23             
 ##  [64] beeswarm_0.2.3           pan_1.6                  base64enc_0.1-3         
 ##  [67] ggridges_0.5.2           pheatmap_1.0.12          png_0.1-7               
 ##  [70] bitops_1.0-6             R.oo_1.23.0              KernSmooth_2.23-16      
 ##  [73] pROC_1.16.1              DelayedMatrixStats_1.8.0 jpeg_0.1-8.1            
 ##  [76] ggsignif_0.6.0           gplots_3.0.1.2           gdata_2.18.0            
-##  [79] zlibbioc_1.32.0          compiler_3.6.1           HSMMSingleCell_1.6.0    
+##  [79] zlibbioc_1.32.0          compiler_3.6.2           HSMMSingleCell_1.6.0    
 ##  [82] dqrng_0.2.1              bbmle_1.0.23.1           RColorBrewer_1.1-2      
 ##  [85] lme4_1.1-21              cli_2.0.1                XVector_0.26.0          
-##  [88] htmlTable_1.13.3         Formula_1.2-3            MASS_7.3-51.5           
+##  [88] htmlTable_1.13.3         Formula_1.2-3            MASS_7.3-51.4           
 ##  [91] mgcv_1.8-31              tidyselect_1.0.0         stringi_1.4.6           
 ##  [94] highr_0.8                densityClust_0.3         yaml_2.2.1              
 ##  [97] BiocSingular_1.2.2       locfit_1.5-9.1           latticeExtra_0.6-29     
-## [100] ggrepel_0.8.1            pbmcapply_1.5.0          grid_3.6.1              
-## [103] tools_3.6.1              ruv_0.9.7.1              rstudioapi_0.11         
-## [106] foreach_1.4.8            foreign_0.8-75           gridExtra_2.3           
+## [100] ggrepel_0.8.1            pbmcapply_1.5.0          grid_3.6.2              
+## [103] tools_3.6.2              ruv_0.9.7.1              rstudioapi_0.11         
+## [106] foreach_1.4.8            foreign_0.8-72           gridExtra_2.3           
 ## [109] prodlim_2019.11.13       farver_2.0.3             ggraph_2.0.1            
 ## [112] proxyC_0.1.5             distr_2.8.0              digest_0.6.24           
 ## [115] FNN_1.1.3                lava_1.6.6               qlcMatrix_0.9.7         

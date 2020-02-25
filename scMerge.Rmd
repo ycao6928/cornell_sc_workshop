@@ -61,7 +61,7 @@ This is perhaps a good place to clarify the terminology **data sources** and **b
 
 For the purpose of efficient data management, the bioinformatics community uses a `SingleCellExperiment` object to store single cell data. We have saved the Su and Yang data as two separate RDS files and we will read these data in first.
 
-Note: In the scMerge publication, we have merged [four mouse liver datasets](https://sydneybiox.github.io/scMerge/articles/case_study/Mouse_Liver_Data.html) together. This data is a bit too large for us to work with in this workshop, hence, we will only merge the Su and Yang datasets.
+Note: In the `scMerge` publication, we have merged [four mouse liver datasets](https://sydneybiox.github.io/scMerge/articles/case_study/Mouse_Liver_Data.html) together. This data is a bit too large for us to work with in this workshop, hence, we will only merge the Su and Yang datasets.
 
 
 ```{r}
@@ -161,7 +161,7 @@ cell_data %>%
 ```
 
 
-For a well-merged dataset, we should expect that the cells are grouped by the cell types rather than the batch/data sources. One way to check for this is via a TSNE plot. The following code creates a TSNE plot coloured by cell types and another coloured by batches. Pay special attention to the Hepatoblast cells (green in the left panel) since it is the only cell type that exists in both batches. Do you think the raw data is well-merged?
+For a well-merged dataset, we should **expect that the cells are grouped by the cell types rather than the batch/data sources**. One way to check for this is via a TSNE plot. The following code creates a TSNE plot coloured by cell types and another coloured by batches. Pay special attention to the Hepatoblast cells (green in the left panel) since it is the only cell type that exists in both batches. Do you think the raw data is well-merged?
 
 ```{r, fig.width=12, fig.height=6, message=FALSE}
 set.seed(1234)
@@ -198,7 +198,7 @@ Other inputs of the `scMerge` function include
 + `sce_combine`: is a `SingleCellExperiment` object containing a column `batch` in its colData
 + `ctl`: An index of stably expressed genes
 + `cell_type`: Cell type information
-+ `replicate_prop`: What is the proportion of cells to be used for finding pseudo-replicates
++ `replicate_prop`: What is the proportion of cells to be used for finding pseudo-replicates (default to 1 for this workshop)
 + `assay_name`: The name of the merged data when stored in the output `SingleCellExperiment`
 + `verbose`: whether intermediate messages should be printed out
 
