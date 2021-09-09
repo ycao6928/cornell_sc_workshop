@@ -1,11 +1,11 @@
 library(googleComputeEngineR)
 
-project = "scpworkshop"
+project = "rstudiotest"
 gce_global_project(project)
 
 
 ## see gce_list_machinetype() for options of predefined_type
-(tag = "gcr.io/scpworkshop/cornell_sc_workshop:alpha")
+(tag = "gcr.io/rstudiotest/cornell_sc_workshop:alpha")
 
 
 gce_global_zone("us-central1-a")
