@@ -1,8 +1,8 @@
 steps:
 - name: 'gcr.io/cloud-builders/docker'
-  args: ['build', '-m', '30g', '-t', 'gcr.io/rstudiotest/cornell_sc_workshop:alpha', '.']
+  args: ['build', '-m', '30g', '-t', 'gcr.io/semiotic-vial-255604/cornell_sc_workshop:alpha', '.']
 - name: 'gcr.io/cloud-builders/docker'
-  args: ['push', 'gcr.io/rstudiotest/cornell_sc_workshop:alpha']
+  args: ['push', 'gcr.io/semiotic-vial-255604/cornell_sc_workshop:alpha']
 options:
  machineType: 'N1_HIGHCPU_32'
 timeout: 9600s
