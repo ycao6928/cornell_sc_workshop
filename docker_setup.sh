@@ -9,7 +9,7 @@ sudo apt-get install libjpeg-dev
 mkdir /home/gittmp/
 git clone https://github.com/SydneyBioX/cornell_sc_workshop /home/gittmp/
 ## wget all data files from Google Cloud Storage into /home/CPC/
-wget https://storage.googleapis.com/scp_data/data.zip -P /home/gittmp/
+wget https://www.dropbox.com/s/jdowy5rl2s2fk2u/data.zip -P /home/gittmp/
 cd /home/gittmp/ && unzip ./data.zip
 rm -rf /home/gittmp/__MACOSX
 rm -rf /home/gittmp/data.zip
