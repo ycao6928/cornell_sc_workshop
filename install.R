@@ -23,7 +23,7 @@ std_pkgs <- c(
 	"viridis", "monocle",
 	"DescTools")
 
-gh_pkgs <- c("MarioniLab/DropletUtils",
+gh_pkgs <- c(#"MarioniLab/DropletUtils",
              "SydneyBioX/scdney",
              "SydneyBioX/scMerge",
              "SydneyBioX/scClassify")
