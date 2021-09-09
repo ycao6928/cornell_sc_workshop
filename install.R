@@ -9,8 +9,8 @@ install.packages("BiocManager", repos="https://cran.rstudio.com")
 #devtools::install_github("Bioconductor/BiocManager")
 library(BiocManager)
 
-if(BiocManager::version() != "3.10"){
-    BiocManager::install(version="3.10",
+if(BiocManager::version() != "3.13"){
+    BiocManager::install(version="3.13",
                          update=TRUE, ask=FALSE)
 }
 
@@ -33,5 +33,5 @@ builtins <- c(std_pkgs, gh_pkgs)
 for (builtin in builtins)
     if (!suppressWarnings(require(builtin, character.only=TRUE)))
         suppressWarnings(BiocManager::install(builtin,
-                                              version="3.10",
+                                              version="3.13",
                                               update=TRUE, ask=FALSE))
