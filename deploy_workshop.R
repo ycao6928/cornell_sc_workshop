@@ -5,7 +5,7 @@ gce_global_project(project)
 
 
 ## see gce_list_machinetype() for options of predefined_type
-(tag = "gcr.io/rstudiotest/cornell_sc_workshop:alpha")
+(tag = "gcr.io/semiotic-vial-255604/cornell_sc_workshop:alpha")
 
 
 gce_global_zone("us-central1-a")
