@@ -1,6 +1,6 @@
 library(googleComputeEngineR)
 
-project = "rstudiotest"
+project = "semiotic-vial-255604"
 gce_global_project(project)
 
 
